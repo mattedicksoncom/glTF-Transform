@@ -18,6 +18,29 @@ const io = new NodeIO(fs, path);
 program
     .version(version);
 
+// TEMP - indices to uint16
+program
+    .command('reindex', 'Converts indices to uint16')
+    .argument('<input>', 'Path to read glTF 2.0 (.glb, .gltf) input')
+    .argument('<output>', 'Path to write output')
+    .action(({ input, output }, _, logger) => {
+        const container = io.read(input);
+        container.json.meshes.forEach((meshDef) => {
+            meshDef.primitives.forEach((primitiveDef) => {
+                if (primitiveDef.indices !== undefined) {
+                    const accessor = container.json.accessors[primitiveDef.indices];
+                    let array = container.getAccessorArray(primitiveDef.indices);
+                    array = new Uint16Array(array.length).set(array);
+                    const target = container.json.bufferViews[accessor.bufferView].target;
+                    GLTFUtil.removeAccessor(container, primitiveDef.indices);
+                    GLTFUtil.addAccessor(container, array, accessor.BYTES_PER_ELEMENT, accessor.componentType, accessor.count, target);
+                    console.log(primitiveDef.indices);
+                }
+            });
+        })
+        // io.write(output, container);
+    });
+
 // ANALYZE
 program
     .command('analyze', 'Analyzes a model\'s contents')
