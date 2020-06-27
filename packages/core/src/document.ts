@@ -153,8 +153,8 @@ export class Document {
 	}
 
 	/** Creates a new {@link Mesh} attached to this document's {@link Root}. */
-	createMesh(name: string): Mesh {
-		const mesh = new Mesh(this.graph, name);
+	createMesh(name: string, extras: any): Mesh {
+		const mesh = new Mesh(this.graph, name, extras);
 		this.root.addMesh(mesh);
 		return mesh;
 	}

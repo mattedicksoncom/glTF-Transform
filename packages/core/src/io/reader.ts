@@ -200,7 +200,7 @@ export class GLTFReader {
 
 		const meshDefs = json.meshes || [];
 		const meshes = meshDefs.map((meshDef) => {
-			const mesh = doc.createMesh(meshDef.name);
+			const mesh = doc.createMesh(meshDef.name, meshDef.extras);
 
 			if (meshDef.weights !== undefined) {
 				mesh.setWeights(meshDef.weights);

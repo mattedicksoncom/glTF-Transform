@@ -50,9 +50,10 @@ export abstract class Property extends GraphNode {
 	protected _extensions: object = {};
 
 	/** @hidden */
-	constructor(graph: PropertyGraph, name = '') {
+	constructor(graph: PropertyGraph, name = '', extras = {}) {
 		super(graph);
 		this._name = name;
+		this._extras = extras;
 	}
 
 	/**
